@@ -72,22 +72,22 @@ sequenceDiagram
     participant L as LLM
 
     C->>A: POST /api/v1/documents
-    A->>A: validate extension, MIME, size; sanitize name
-    A->>S: write {uuid}.pdf, SHA-256 checksum
-    A->>D: INSERT document + job(queued)
+    A->>A: validate extension, MIME, size and sanitize name
+    A->>S: write uuid.pdf with SHA-256 checksum
+    A->>D: INSERT document and job queued
     A->>R: XADD document-processing
-    A-->>C: 202 {document_id, job_id, status_url}
+    A-->>C: 202 with document_id, job_id, status_url
 
-    W->>R: XREADGROUP as worker-{host}-{pid}
-    W->>D: conditional UPDATE -> processing (0 rows = duplicate, ack & skip)
+    W->>R: XREADGROUP as worker-host-pid
+    W->>D: conditional UPDATE to processing
     W->>S: read file
-    W->>W: extract text (empty -> non-retryable failure)
+    W->>W: extract text
     opt document_type not supplied
         W->>L: classify from first 2k chars
     end
     W->>L: extract against the selected schema
     W->>W: validate with Pydantic
-    W->>D: INSERT result + job(completed) in one transaction
+    W->>D: INSERT result and mark job completed
     W->>R: XACK
 ```
 
