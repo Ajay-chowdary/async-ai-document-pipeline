@@ -1,0 +1,20 @@
+SUPPORT TICKET
+
+Subject: Unable to download monthly statement PDF
+Ticket ID: TCK-88421
+Customer Name: Riley Quinn
+Customer Email: riley.quinn@example.com
+Category: billing
+Priority: high
+Channel: email
+
+Customer reported:
+I can open the billing page, but the "Download statement" button returns an
+error after about ten seconds. This started after yesterday's maintenance window.
+I need the January statement for accounting close.
+
+Requested action:
+Restore PDF download for account RQ-44109 and confirm when the January
+statement is available again.
+
+Sentiment: frustrated

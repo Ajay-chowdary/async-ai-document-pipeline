@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Job {{ job.id }} — DocPipeline{% endblock %}
+{% block content %}
+<section class="intro">
+  <p class="crumb"><a href="/">Dashboard</a> / job</p>
+  <h1 class="mono">{{ job.id }}</h1>
+  <p>{{ filename or "Unknown file" }}</p>
+</section>
+
+<section class="panel detail-grid" aria-label="Job status">
+  <div>
+    <span class="metric-label">Status</span>
+    <p><span class="badge status-{{ job.status.value }}">{{ job.status.value }}</span></p>
+  </div>
+  <div>
+    <span class="metric-label">Retries</span>
+    <p class="mono">{{ job.retry_count }} / {{ job.max_retries }}</p>
+  </div>
+  <div>
+    <span class="metric-label">Duration</span>
+    <p class="mono">{% if job.processing_duration_ms is not none %}{{ job.processing_duration_ms }} ms{% else %}—{% endif %}</p>
+  </div>
+  <div>
+    <span class="metric-label">Detected type</span>
+    <p class="mono">{% if job.result %}{{ job.result.detected_document_type.value }}{% else %}—{% endif %}</p>
+  </div>
+  <div class="wide">
+    <span class="metric-label">Failure</span>
+    <p>{% if job.error_message %}{{ job.error_message }}{% else %}—{% endif %}</p>
+  </div>
+  {% if job.status.value == "failed" %}
+  <div class="wide">
+    <button
+      type="button"
+      class="btn primary"
+      id="retry-button"
+      data-job-id="{{ job.id }}"
+    >Retry job</button>
+    <p id="retry-status" class="status-line" role="status" aria-live="polite"></p>
+  </div>
+  {% endif %}
+</section>
+
+<section class="panel" aria-labelledby="json-heading">
+  <h2 id="json-heading">Extraction result</h2>
+  {% if result_payload %}
+  <pre class="json-block">{{ result_payload | pretty_json }}</pre>
+  {% else %}
+  <p class="muted">No extraction result yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/dashboard.js" defer></script>
+{% endblock %}

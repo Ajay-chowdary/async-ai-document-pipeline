@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}DocPipeline — Dashboard{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Pipeline board</h1>
+  <p>Upload a document, watch the queue drain, open any job for the extracted JSON.</p>
+</section>
+
+<section
+  id="metrics"
+  class="metrics"
+  aria-label="Pipeline metrics"
+  data-poll-interval-ms="{{ poll_interval_ms }}"
+  data-recent-limit="{{ recent_limit }}"
+>
+  <div class="metric"><span class="metric-label">Total</span><span class="metric-value" data-key="total_jobs">—</span></div>
+  <div class="metric"><span class="metric-label">Queued</span><span class="metric-value" data-key="queued">—</span></div>
+  <div class="metric"><span class="metric-label">Processing</span><span class="metric-value" data-key="processing">—</span></div>
+  <div class="metric"><span class="metric-label">Completed</span><span class="metric-value" data-key="completed">—</span></div>
+  <div class="metric"><span class="metric-label">Failed</span><span class="metric-value" data-key="failed">—</span></div>
+  <div class="metric"><span class="metric-label">Success</span><span class="metric-value" data-key="approximate_success_rate">—</span></div>
+  <div class="metric"><span class="metric-label">Avg ms</span><span class="metric-value" data-key="average_processing_duration_ms">—</span></div>
+  <div class="metric"><span class="metric-label">24h jobs</span><span class="metric-value" data-key="jobs_last_24_hours">—</span></div>
+  <div class="metric"><span class="metric-label">Stream</span><span class="metric-value" data-key="stream_length">—</span></div>
+  <div class="metric"><span class="metric-label">Pending</span><span class="metric-value" data-key="pending">—</span></div>
+  <div class="metric"><span class="metric-label">Retries</span><span class="metric-value" data-key="scheduled_retries">—</span></div>
+</section>
+
+<section class="panel" aria-labelledby="upload-heading">
+  <h2 id="upload-heading">Upload</h2>
+  <form id="upload-form" class="upload-form">
+    <label class="field">
+      <span>File</span>
+      <input type="file" name="file" accept=".pdf,.txt,.docx,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+    </label>
+    <label class="field">
+      <span>Document type</span>
+      <select name="document_type">
+        <option value="">Auto-classify</option>
+        {% for document_type in document_types %}
+        <option value="{{ document_type }}">{{ document_type }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit" class="btn primary">Queue document</button>
+    <p class="hint">PDF, TXT or DOCX up to {{ max_upload_mb }} MB.</p>
+  </form>
+  <p id="upload-status" class="status-line" role="status" aria-live="polite"></p>
+</section>
+
+<section class="panel" aria-labelledby="jobs-heading">
+  <div class="panel-head">
+    <h2 id="jobs-heading">Recent jobs</h2>
+    <p id="jobs-updated" class="muted"></p>
+  </div>
+  <div class="table-wrap">
+    <table id="jobs-table">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>File</th>
+          <th>Type</th>
+          <th>Duration</th>
+          <th>Error</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6" class="empty">Loading jobs…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/dashboard.js" defer></script>
+{% endblock %}

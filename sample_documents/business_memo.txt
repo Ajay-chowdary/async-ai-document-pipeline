@@ -1,0 +1,27 @@
+BUSINESS MEMO
+
+To: Operations Team
+From: Process Excellence
+Date: 2026-01-20
+Title: Pilot kickoff for asynchronous document intake
+
+Purpose
+We are piloting a queue-backed document extraction path for invoices, resumes
+and support tickets. The goal is to cut manual re-keying during intake spikes.
+
+Key entities
+DocPipeline pilot, Operations Team, Process Excellence, Contoso intake queue
+
+Important dates
+2026-01-20 — pilot start
+2026-02-03 — first review
+2026-02-17 — go / no-go decision
+
+Action items
+1. Route sample documents through the fake provider this week.
+2. Capture mean and p95 end-to-end latency from the benchmark script.
+3. List failure modes that still need a manual retry.
+
+Summary
+Treat the single-host deployment as a demo environment. Do not place real
+personal data in the pilot corpus.

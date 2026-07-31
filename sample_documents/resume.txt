@@ -1,0 +1,26 @@
+RESUME
+
+Candidate: Jordan Lee
+Email: jordan.lee@example.com
+Phone: +1-555-0100
+Location: Austin, TX
+
+Summary
+Backend engineer focused on reliable async pipelines, PostgreSQL and Redis-backed
+workers. Comfortable owning upload paths, retries and operational dashboards.
+
+Skills
+Python, FastAPI, SQLAlchemy, PostgreSQL, Redis Streams, Docker, pytest
+
+Education
+Example State University — BSc Computer Science — 2016 to 2020
+
+Experience
+Example Systems — Software Engineer — 2020 to Present
+Built an event-driven document intake service with durable queues, idempotent
+workers and structured extraction validation.
+
+Prior Labs — Intern — 2019
+Wrote integration tests for a file ingestion API and reduced flaky suite failures.
+
+Total years of experience: 5

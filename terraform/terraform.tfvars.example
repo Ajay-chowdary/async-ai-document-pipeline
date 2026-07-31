@@ -1,0 +1,31 @@
+# Copy to terraform.tfvars (git-ignored) and fill in your values.
+# Never commit real secrets. OPENAI_API_KEY lives in SSM, not here.
+
+aws_region   = "us-east-1"
+project_name = "docpipeline"
+
+# Required: your own CIDRs. There is no 0.0.0.0/0 default.
+# Example: only your current public IP.
+ssh_ingress_cidr  = "203.0.113.10/32"
+http_ingress_cidr = "203.0.113.10/32"
+
+# Existing EC2 key pair in this account/region, or "" for SSM Session Manager only.
+key_name = "my-laptop-key"
+
+# SecureString parameter you create before apply, e.g.:
+#   aws ssm put-parameter \
+#     --name /docpipeline/openai_api_key \
+#     --type SecureString \
+#     --value "sk-..." \
+#     --overwrite
+openai_ssm_parameter_name = "/docpipeline/openai_api_key"
+
+# Public (or otherwise non-interactive) git URL for this repository.
+git_repo_url = "https://github.com/example/async-ai-document-pipeline.git"
+git_ref      = "main"
+
+# Use "fake" to bring the stack up without calling OpenAI.
+llm_provider = "openai"
+
+instance_type  = "t3.small"
+root_volume_gb = 30
